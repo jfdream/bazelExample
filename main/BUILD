@@ -34,18 +34,17 @@ cc_library(
     name = "angle",
     hdrs = glob(["libangle/include/**/*.h"]),
     includes = ["libangle/include"],
-    srcs = glob(
-        [
-            "libangle/*.dylib",
-        ],
-    ),
+    srcs = glob([
+        "libangle/*.dylib",
+    ]),
     # include_prefix = "main/libangle/include",
     # copts = ["-I./include"],
     linkopts = [
-        "-lEGL",
         "-lGLESv2",
+        "-lEGL",
     ],
     visibility = ["//visibility:public"],
+    linkstatic = 1
 )
 
 
@@ -79,8 +78,12 @@ apple_binary(
     binary_type = "dylib",
     platform_type = "macos",
     visibility = ["//visibility:public"],
+    # dylibs = glob([
+    #     "libangle/*.dylib",
+    # ]),
     deps = [
-        ":linkv_graph"
+        ":linkv_graph",
+        "//third_party:angle"
     ],
 )
 
